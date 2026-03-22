@@ -1,10 +1,14 @@
 package main
 
+/*
+#include <stdlib.h>
+*/
 import "C"
 import (
-	"github.com/godaemon/godaemon/pkg/damo"
 	"sync"
 	"unsafe"
+
+	"github.com/godaemon/godaemon/pkg/damo"
 )
 
 var (
@@ -37,11 +41,11 @@ func gd_UnBindWindow() C.int {
 
 //export gd_GetWindowRect
 func gd_GetWindowRect(hwnd uintptr, x1, y1, x2, y2 *C.int) C.int {
-	rect := gdInstance.GetWindowRect(hwnd)
-	*x1 = C.int(rect[0])
-	*y1 = C.int(rect[1])
-	*x2 = C.int(rect[2])
-	*y2 = C.int(rect[3])
+	rx1, ry1, rx2, ry2 := gdInstance.GetWindowRect(hwnd)
+	*x1 = C.int(rx1)
+	*y1 = C.int(ry1)
+	*x2 = C.int(rx2)
+	*y2 = C.int(ry2)
 	return 0
 }
 

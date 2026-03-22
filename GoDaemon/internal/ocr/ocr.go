@@ -47,7 +47,8 @@ func (e *TesseractEngine) SetDataPath(path string) {
 //   - string: 识别结果
 //   - error: 错误信息
 func (e *TesseractEngine) Recognize(img *image.RGBA, rect common.Rect) (string, error) {
-	return e.RecognizeWithConfidence(img, rect)
+	text, _, err := e.RecognizeWithConfidence(img, rect)
+	return text, err
 }
 
 // RecognizeWithConfidence 识别图像中的文字（带置信度）

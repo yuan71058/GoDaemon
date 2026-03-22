@@ -3,7 +3,6 @@ package input
 import (
 	"github.com/godaemon/godaemon/internal/common"
 	"syscall"
-	"unsafe"
 )
 
 var (

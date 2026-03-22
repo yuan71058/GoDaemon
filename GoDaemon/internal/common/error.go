@@ -148,5 +148,3 @@ func GetErrorMessageByCode(code ErrorCode) string {
 	}
 	return "未知错误"
 }
-
-import "fmt"

@@ -1,8 +1,9 @@
 package image
 
 import (
-	"github.com/godaemon/godaemon/internal/common"
 	"image"
+
+	"github.com/godaemon/godaemon/internal/common"
 )
 
 // FindPicResult 找图结果
@@ -12,6 +13,7 @@ type FindPicResult struct {
 	// X X坐标
 	X int
 	// Y Y坐标
+	Y int
 	// Similarity 相似度
 	Similarity float64
 }
@@ -28,6 +30,7 @@ type ImageMatcher struct {
 // NewImageMatcher 创建新的图像匹配器
 // 参数:
 //   - source: 源图像
+//
 // 返回:
 //   - *ImageMatcher: 图像匹配器指针
 func NewImageMatcher(source *image.RGBA) *ImageMatcher {
@@ -41,6 +44,7 @@ func NewImageMatcher(source *image.RGBA) *ImageMatcher {
 // 参数:
 //   - template: 模板图像
 //   - similarity: 相似度阈值 (0.0-1.0)
+//
 // 返回:
 //   - FindPicResult: 查找结果
 func (m *ImageMatcher) FindPic(template *image.RGBA, similarity float64) FindPicResult {
@@ -88,6 +92,7 @@ func (m *ImageMatcher) FindPic(template *image.RGBA, similarity float64) FindPic
 //   - template: 模板图像
 //   - rect: 搜索区域
 //   - similarity: 相似度阈值
+//
 // 返回:
 //   - FindPicResult: 查找结果
 func (m *ImageMatcher) FindPicInRect(template *image.RGBA, rect common.Rect, similarity float64) FindPicResult {
@@ -221,6 +226,7 @@ func sqrtFloat(x float64) float64 {
 // 参数:
 //   - template: 模板图像
 //   - similarity: 相似度阈值
+//
 // 返回:
 //   - []FindPicResult: 所有匹配结果
 func (m *ImageMatcher) FindAllPics(template *image.RGBA, similarity float64) []FindPicResult {

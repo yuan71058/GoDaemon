@@ -3,7 +3,7 @@ package damo
 import (
 	"github.com/godaemon/godaemon/internal/capture"
 	"github.com/godaemon/godaemon/internal/common"
-	"github.com/godaemon/godaemon/internal/image"
+	img "github.com/godaemon/godaemon/internal/image"
 	"github.com/godaemon/godaemon/internal/input"
 	"github.com/godaemon/godaemon/internal/ocr"
 	"github.com/godaemon/godaemon/internal/window"
@@ -416,7 +416,7 @@ func (dm *DaMo) FindPic(templatePath string, similarity float64) (int, int) {
 		return -1, -1
 	}
 
-	matcher := image.NewImageMatcher(dm.lastCapture)
+	matcher := img.NewImageMatcher(dm.lastCapture)
 	result := matcher.FindPic(tpl, similarity)
 
 	if result.Found {
@@ -453,7 +453,7 @@ func (dm *DaMo) FindPicInRect(templatePath string, x1, y1, x2, y2 int, similarit
 		Height: y2 - y1,
 	}
 
-	matcher := image.NewImageMatcher(dm.lastCapture)
+	matcher := img.NewImageMatcher(dm.lastCapture)
 	result := matcher.FindPicInRect(tpl, rect, similarity)
 
 	if result.Found {
@@ -475,7 +475,7 @@ func (dm *DaMo) FindColor(color uint32, tolerance int) (int, int) {
 	}
 
 	c := common.NewColorFromUint32(color)
-	finder := image.NewColorFinder(dm.lastCapture)
+	finder := img.NewColorFinder(dm.lastCapture)
 	result := finder.FindColor(c, tolerance)
 
 	if result.Found {
@@ -508,7 +508,7 @@ func (dm *DaMo) FindColorInRect(color uint32, x1, y1, x2, y2, tolerance int) (in
 		Height: y2 - y1,
 	}
 
-	finder := image.NewColorFinder(dm.lastCapture)
+	finder := img.NewColorFinder(dm.lastCapture)
 	result := finder.FindColorInRect(c, tolerance, rect)
 
 	if result.Found {
@@ -531,7 +531,7 @@ func (dm *DaMo) CmpColor(x, y int, color uint32, tolerance int) bool {
 	}
 
 	c := common.NewColorFromUint32(color)
-	finder := image.NewColorFinder(dm.lastCapture)
+	finder := img.NewColorFinder(dm.lastCapture)
 	return finder.CmpColor(x, y, c, tolerance)
 }
 
@@ -546,7 +546,7 @@ func (dm *DaMo) GetColor(x, y int) uint32 {
 		return 0
 	}
 
-	c := image.GetPixelColor(dm.lastCapture, x, y)
+	c := img.GetPixelColor(dm.lastCapture, x, y)
 	return c.ToUint32()
 }
 

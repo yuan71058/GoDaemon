@@ -2,9 +2,7 @@ package input
 
 import (
 	"github.com/godaemon/godaemon/internal/common"
-	"syscall"
 	"unicode/utf16"
-	"unsafe"
 )
 
 // KeyboardController 键盘控制器
