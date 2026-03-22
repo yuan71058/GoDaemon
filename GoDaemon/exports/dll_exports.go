@@ -8,16 +8,16 @@ import (
 	"sync"
 	"unsafe"
 
-	"github.com/godaemon/godaemon/pkg/damo"
+	"github.com/godaemon/godaemon/pkg/godaemon"
 )
 
 var (
-	gdInstance *damo.DaMo
+	gdInstance *godaemon.GoDaemon
 	gdMutex    sync.Mutex
 )
 
 func init() {
-	gdInstance = damo.New()
+	gdInstance = godaemon.New()
 }
 
 //export gd_ver
