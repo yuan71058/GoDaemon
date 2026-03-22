@@ -58,7 +58,7 @@ gd.gd_SavePic("./screenshot.png".encode())
 
 # 找图点击
 x, y = ctypes.c_int(), ctypes.c_int()
-if gd.gd_FindPic("./button.png".encode(), 0.8, ctypes.byref(x), ctypes.byref(y)) == 0:
+if gd.gd_FindPic("./button.png".encode(), 0.8, ctypes.byref(x), ctypes.byref(y)) == 1:
     gd.gd_LeftClick(x.value, y.value)
 
 # OCR识别
@@ -174,20 +174,14 @@ GoDaemon/
 | `dx2` | DX2模式 | DirectX游戏 |
 | `dx3` | DX3模式 | DirectX游戏增强版 |
 
-## 📋 错误码
+## 📋 返回码说明
 
-| 错误码 | 说明 |
+| 返回值 | 说明 |
 |--------|------|
-| 0 | 成功 |
-| 1 | 无效的窗口句柄 |
-| 2 | 窗口绑定失败 |
-| 3 | 截图失败 |
-| 4 | 模板图片未找到 |
-| 5 | 未找到指定颜色 |
-| 6 | 未找到指定图片 |
-| 7 | OCR识别失败 |
-| 8 | 无效参数 |
-| 9 | 窗口未绑定 |
+| 1 | 成功 |
+| 0 | 失败 |
+
+> 注意：所有返回int类型的函数，成功返回1，失败返回0
 
 ## 📄 License
 
