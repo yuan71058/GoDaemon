@@ -13,32 +13,32 @@ import (
 // GoDaemon 自动化框架主结构体
 // 提供窗口绑定、截图、键鼠模拟、图色查找、OCR识别等功能
 type GoDaemon struct {
-	binder     *window.Binder
-	capturer   *capture.Capturer
-	mouse      *input.MouseController
-	keyboard   *input.KeyboardController
-	tesseract  *ocr.TesseractEngine
-	paddleOCR  *ocr.PaddleOCREngine
+	binder      *window.Binder
+	capturer    *capture.Capturer
+	mouse       *input.MouseController
+	keyboard    *input.KeyboardController
+	tesseract   *ocr.TesseractEngine
+	paddleOCR   *ocr.PaddleOCREngine
 	lastCapture *image.RGBA
-	config     *Config
+	config      *Config
 }
 
 // Config 配置选项
 type Config struct {
-	DefaultSimilarity   float64
-	DefaultTolerance    int
-	OcrEngine           string
-	PaddleOCRUrl        string
-	TesseractLanguage   string
+	DefaultSimilarity float64
+	DefaultTolerance  int
+	OcrEngine         string
+	PaddleOCRUrl      string
+	TesseractLanguage string
 }
 
 // DefaultConfig 默认配置
 var DefaultConfig = &Config{
-	DefaultSimilarity:   0.8,
-	DefaultTolerance:    10,
-	OcrEngine:           "paddle",
-	PaddleOCRUrl:        "http://127.0.0.1:8868",
-	TesseractLanguage:   "chi_sim",
+	DefaultSimilarity: 0.8,
+	DefaultTolerance:  10,
+	OcrEngine:         "paddle",
+	PaddleOCRUrl:      "http://127.0.0.1:8868",
+	TesseractLanguage: "chi_sim",
 }
 
 // New 创建GoDaemon实例
@@ -52,16 +52,17 @@ func NewWithConfig(config *Config) *GoDaemon {
 		config = DefaultConfig
 	}
 	return &GoDaemon{
-		binder:      window.NewBinder(),
-		config:      config,
-		tesseract:   ocr.NewTesseractEngine(config.TesseractLanguage),
-		paddleOCR:   ocr.NewPaddleOCREngine(config.PaddleOCRUrl),
+		binder:     window.NewBinder(),
+		config:     config,
+		tesseract:  ocr.NewTesseractEngine(config.TesseractLanguage),
+		paddleOCR:  ocr.NewPaddleOCREngine(config.PaddleOCRUrl),
 	}
 }
 
 // ==================== 窗口操作 ====================
 
 // BindWindow 绑定窗口
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) BindWindow(hwnd uintptr, mode string) int {
 	var bindMode common.BindMode
 	switch mode {
@@ -75,21 +76,22 @@ func (gd *GoDaemon) BindWindow(hwnd uintptr, mode string) int {
 		bindMode = common.BindModeNormal
 	}
 	if err := gd.binder.Bind(hwnd, bindMode); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
 	gd.capturer = capture.NewCapturer(hwnd)
 	gd.mouse = input.NewMouseController(hwnd)
 	gd.keyboard = input.NewKeyboardController(hwnd)
-	return 0
+	return 1
 }
 
 // UnBindWindow 解绑窗口
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) UnBindWindow() int {
 	gd.binder.Unbind()
 	gd.capturer = nil
 	gd.mouse = nil
 	gd.keyboard = nil
-	return 0
+	return 1
 }
 
 // GetWindowRect 获取窗口矩形
@@ -128,42 +130,45 @@ func (gd *GoDaemon) IsWindow(hwnd uintptr) bool {
 // ==================== 截图操作 ====================
 
 // Capture 截取整个窗口
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) Capture() int {
 	if gd.capturer == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	img, err := gd.capturer.CaptureWindow()
 	if err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
 	gd.lastCapture = img
-	return 0
+	return 1
 }
 
 // CaptureRect 截取指定区域
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) CaptureRect(x1, y1, x2, y2 int) int {
 	if gd.capturer == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	rect := common.Rect{X: x1, Y: y1, Width: x2 - x1, Height: y2 - y1}
 	img, err := gd.capturer.CaptureRect(rect)
 	if err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
 	gd.lastCapture = img
-	return 0
+	return 1
 }
 
 // SavePic 保存截图
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) SavePic(path string) int {
 	if gd.lastCapture == nil {
-		return int(common.ErrCaptureFailed)
+		return 0
 	}
 	format := capture.GetFormatFromPath(path)
 	if err := capture.SaveImage(gd.lastCapture, path, format); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // GetLastCapture 获取最后一次截图
@@ -174,151 +179,165 @@ func (gd *GoDaemon) GetLastCapture() *image.RGBA {
 // ==================== 键鼠操作 ====================
 
 // MoveTo 移动鼠标
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) MoveTo(x, y int) int {
 	if gd.mouse == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	if err := gd.mouse.MoveTo(x, y); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // LeftClick 左键单击
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) LeftClick(x, y int) int {
 	if gd.mouse == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	if err := gd.mouse.LeftClick(x, y); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // RightClick 右键单击
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) RightClick(x, y int) int {
 	if gd.mouse == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	if err := gd.mouse.RightClick(x, y); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // MiddleClick 中键单击
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) MiddleClick(x, y int) int {
 	if gd.mouse == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	if err := gd.mouse.MiddleClick(x, y); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // LeftDown 左键按下
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) LeftDown(x, y int) int {
 	if gd.mouse == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	if err := gd.mouse.LeftDown(x, y); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // LeftUp 左键弹起
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) LeftUp(x, y int) int {
 	if gd.mouse == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	if err := gd.mouse.LeftUp(x, y); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // RightDown 右键按下
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) RightDown(x, y int) int {
 	if gd.mouse == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	if err := gd.mouse.RightDown(x, y); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // RightUp 右键弹起
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) RightUp(x, y int) int {
 	if gd.mouse == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	if err := gd.mouse.RightUp(x, y); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // Wheel 鼠标滚轮
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) Wheel(x, y, delta int) int {
 	if gd.mouse == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	if err := gd.mouse.Wheel(x, y, delta); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // KeyPress 按键
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) KeyPress(keyCode int) int {
 	if gd.keyboard == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	if err := gd.keyboard.KeyPress(common.KeyCode(keyCode)); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // KeyDown 按键按下
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) KeyDown(keyCode int) int {
 	if gd.keyboard == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	if err := gd.keyboard.KeyDown(common.KeyCode(keyCode)); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // KeyUp 按键弹起
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) KeyUp(keyCode int) int {
 	if gd.keyboard == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	if err := gd.keyboard.KeyUp(common.KeyCode(keyCode)); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // SendString 发送字符串
+// 返回: 1=成功, 0=失败
 func (gd *GoDaemon) SendString(text string) int {
 	if gd.keyboard == nil {
-		return int(common.ErrNotBound)
+		return 0
 	}
 	if err := gd.keyboard.SendString(text); err != nil {
-		return int(err.(*common.DaMoError).Code)
+		return 0
 	}
-	return 0
+	return 1
 }
 
 // ==================== 图色操作 ====================
 
 // FindPic 找图
+// 返回: 坐标, 未找到返回(-1, -1)
 func (gd *GoDaemon) FindPic(templatePath string, similarity float64) (int, int) {
 	if gd.lastCapture == nil {
 		return -1, -1
@@ -336,6 +355,7 @@ func (gd *GoDaemon) FindPic(templatePath string, similarity float64) (int, int) 
 }
 
 // FindPicInRect 区域找图
+// 返回: 坐标, 未找到返回(-1, -1)
 func (gd *GoDaemon) FindPicInRect(templatePath string, x1, y1, x2, y2 int, similarity float64) (int, int) {
 	if gd.lastCapture == nil {
 		return -1, -1
@@ -354,6 +374,7 @@ func (gd *GoDaemon) FindPicInRect(templatePath string, x1, y1, x2, y2 int, simil
 }
 
 // FindColor 找色
+// 返回: 坐标, 未找到返回(-1, -1)
 func (gd *GoDaemon) FindColor(color uint32, tolerance int) (int, int) {
 	if gd.lastCapture == nil {
 		return -1, -1
@@ -368,6 +389,7 @@ func (gd *GoDaemon) FindColor(color uint32, tolerance int) (int, int) {
 }
 
 // FindColorInRect 区域找色
+// 返回: 坐标, 未找到返回(-1, -1)
 func (gd *GoDaemon) FindColorInRect(color uint32, x1, y1, x2, y2, tolerance int) (int, int) {
 	if gd.lastCapture == nil {
 		return -1, -1
@@ -383,13 +405,17 @@ func (gd *GoDaemon) FindColorInRect(color uint32, x1, y1, x2, y2, tolerance int)
 }
 
 // CmpColor 比色
-func (gd *GoDaemon) CmpColor(x, y int, color uint32, tolerance int) bool {
+// 返回: 1=匹配, 0=不匹配
+func (gd *GoDaemon) CmpColor(x, y int, color uint32, tolerance int) int {
 	if gd.lastCapture == nil {
-		return false
+		return 0
 	}
 	c := common.NewColorFromUint32(color)
 	finder := img.NewColorFinder(gd.lastCapture)
-	return finder.CmpColor(x, y, c, tolerance)
+	if finder.CmpColor(x, y, c, tolerance) {
+		return 1
+	}
+	return 0
 }
 
 // GetColor 获取指定位置颜色
@@ -423,6 +449,7 @@ func (gd *GoDaemon) Ocr(x1, y1, x2, y2 int) string {
 }
 
 // FindStr 查找文字
+// 返回: 坐标, 未找到返回(-1, -1)
 func (gd *GoDaemon) FindStr(text string, x1, y1, x2, y2 int) (int, int) {
 	return -1, -1
 }

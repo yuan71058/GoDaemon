@@ -202,10 +202,7 @@ func gd_FindColorInRect(color C.uint, x1, y1, x2, y2 C.int, tolerance C.int, x, 
 func gd_CmpColor(x, y C.int, color C.uint, tolerance C.int) C.int {
 	gdMutex.Lock()
 	defer gdMutex.Unlock()
-	if gdInstance.CmpColor(int(x), int(y), uint32(color), int(tolerance)) {
-		return 1
-	}
-	return 0
+	return C.int(gdInstance.CmpColor(int(x), int(y), uint32(color), int(tolerance)))
 }
 
 //export gd_GetColor

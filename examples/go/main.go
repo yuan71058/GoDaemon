@@ -278,8 +278,8 @@ func main() {
 	fmt.Printf("窗口有效: %v\n", gdIsWindow(hwnd))
 
 	ret := gdBindWindow(hwnd, "gdi")
-	fmt.Printf("绑定窗口: %d (0=成功)\n", ret)
-	if ret != 0 {
+	fmt.Printf("绑定窗口: %d (1=成功)\n", ret)
+	if ret != 1 {
 		fmt.Println("绑定失败")
 		return
 	}
@@ -289,10 +289,10 @@ func main() {
 	fmt.Println("--- 截图操作 ---")
 
 	ret = gdCapture()
-	fmt.Printf("截图: %d (0=成功)\n", ret)
+	fmt.Printf("截图: %d (1=成功)\n", ret)
 
 	ret = gdSavePic("screenshot.png")
-	fmt.Printf("保存截图: %d (0=成功)\n", ret)
+	fmt.Printf("保存截图: %d (1=成功)\n", ret)
 
 	fmt.Println()
 	fmt.Println("--- 图色操作 ---")
