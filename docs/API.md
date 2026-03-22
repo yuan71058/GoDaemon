@@ -18,13 +18,13 @@
 
 ## 一、窗口操作API
 
-### dm_BindWindow
+### gd_BindWindow
 
 **功能描述**: 绑定指定窗口，绑定后可进行后台操作
 
 **函数原型**:
 ```c
-int dm_BindWindow(uintptr_t hwnd, const char* mode);
+int gd_BindWindow(uintptr_t hwnd, const char* mode);
 ```
 
 **参数说明**:
@@ -48,25 +48,25 @@ int dm_BindWindow(uintptr_t hwnd, const char* mode);
 **示例代码**:
 ```python
 # Python
-hwnd = damo.dm_FindWindow(None, "计算器".encode('gbk'))
-result = damo.dm_BindWindow(hwnd, "gdi".encode())
+hwnd = gd.gd_FindWindow(None, "计算器".encode('gbk'))
+result = gd.gd_BindWindow(hwnd, "gdi".encode())
 ```
 
 ```csharp
 // C#
-IntPtr hwnd = dm_FindWindow(null, "计算器");
-int result = dm_BindWindow(hwnd, "gdi");
+IntPtr hwnd = gd_FindWindow(null, "计算器");
+int result = gd_BindWindow(hwnd, "gdi");
 ```
 
 ---
 
-### dm_UnBindWindow
+### gd_UnBindWindow
 
 **功能描述**: 解绑当前绑定的窗口
 
 **函数原型**:
 ```c
-int dm_UnBindWindow();
+int gd_UnBindWindow();
 ```
 
 **返回值**:
@@ -74,18 +74,18 @@ int dm_UnBindWindow();
 
 **示例代码**:
 ```python
-damo.dm_UnBindWindow()
+gd.gd_UnBindWindow()
 ```
 
 ---
 
-### dm_FindWindow
+### gd_FindWindow
 
 **功能描述**: 根据类名和标题查找窗口
 
 **函数原型**:
 ```c
-uintptr_t dm_FindWindow(const char* className, const char* title);
+uintptr_t gd_FindWindow(const char* className, const char* title);
 ```
 
 **参数说明**:
@@ -100,21 +100,21 @@ uintptr_t dm_FindWindow(const char* className, const char* title);
 **示例代码**:
 ```python
 # 按标题查找
-hwnd = damo.dm_FindWindow(None, "计算器".encode('gbk'))
+hwnd = gd.gd_FindWindow(None, "计算器".encode('gbk'))
 
 # 按类名查找
-hwnd = damo.dm_FindWindow("Notepad".encode(), None)
+hwnd = gd.gd_FindWindow("Notepad".encode(), None)
 ```
 
 ---
 
-### dm_GetWindowRect
+### gd_GetWindowRect
 
 **功能描述**: 获取窗口矩形区域
 
 **函数原型**:
 ```c
-int dm_GetWindowRect(uintptr_t hwnd, int* x1, int* y1, int* x2, int* y2);
+int gd_GetWindowRect(uintptr_t hwnd, int* x1, int* y1, int* x2, int* y2);
 ```
 
 **参数说明**:
@@ -131,13 +131,13 @@ int dm_GetWindowRect(uintptr_t hwnd, int* x1, int* y1, int* x2, int* y2);
 
 ---
 
-### dm_IsWindow
+### gd_IsWindow
 
 **功能描述**: 判断窗口句柄是否有效
 
 **函数原型**:
 ```c
-int dm_IsWindow(uintptr_t hwnd);
+int gd_IsWindow(uintptr_t hwnd);
 ```
 
 **返回值**:
@@ -148,36 +148,36 @@ int dm_IsWindow(uintptr_t hwnd);
 
 ## 二、截图操作API
 
-### dm_Capture
+### gd_Capture
 
 **功能描述**: 截取整个绑定窗口
 
 **函数原型**:
 ```c
-int dm_Capture();
+int gd_Capture();
 ```
 
 **返回值**:
 - 0: 成功
 - 非0: 失败
 
-**说明**: 截图结果保存在内存中，可通过dm_SavePic保存或用于后续找图/OCR操作
+**说明**: 截图结果保存在内存中，可通过gd_SavePic保存或用于后续找图/OCR操作
 
 **示例代码**:
 ```python
-damo.dm_Capture()
-damo.dm_SavePic("./screenshot.png".encode())
+gd.gd_Capture()
+gd.gd_SavePic("./screenshot.png".encode())
 ```
 
 ---
 
-### dm_CaptureRect
+### gd_CaptureRect
 
 **功能描述**: 截取窗口指定区域
 
 **函数原型**:
 ```c
-int dm_CaptureRect(int x1, int y1, int x2, int y2);
+int gd_CaptureRect(int x1, int y1, int x2, int y2);
 ```
 
 **参数说明**:
@@ -194,13 +194,13 @@ int dm_CaptureRect(int x1, int y1, int x2, int y2);
 
 ---
 
-### dm_SavePic
+### gd_SavePic
 
 **功能描述**: 保存截图到文件
 
 **函数原型**:
 ```c
-int dm_SavePic(const char* path);
+int gd_SavePic(const char* path);
 ```
 
 **参数说明**:
@@ -214,21 +214,21 @@ int dm_SavePic(const char* path);
 
 **示例代码**:
 ```python
-damo.dm_Capture()
-damo.dm_SavePic("./images/screenshot.png".encode())
+gd.gd_Capture()
+gd.gd_SavePic("./images/screenshot.png".encode())
 ```
 
 ---
 
 ## 三、键鼠操作API
 
-### dm_MoveTo
+### gd_MoveTo
 
 **功能描述**: 移动鼠标到指定位置
 
 **函数原型**:
 ```c
-int dm_MoveTo(int x, int y);
+int gd_MoveTo(int x, int y);
 ```
 
 **参数说明**:
@@ -242,13 +242,13 @@ int dm_MoveTo(int x, int y);
 
 ---
 
-### dm_LeftClick
+### gd_LeftClick
 
 **功能描述**: 鼠标左键单击
 
 **函数原型**:
 ```c
-int dm_LeftClick(int x, int y);
+int gd_LeftClick(int x, int y);
 ```
 
 **参数说明**:
@@ -263,51 +263,51 @@ int dm_LeftClick(int x, int y);
 **示例代码**:
 ```python
 # 点击坐标(100, 200)
-damo.dm_LeftClick(100, 200)
+gd.gd_LeftClick(100, 200)
 ```
 
 ---
 
-### dm_RightClick
+### gd_RightClick
 
 **功能描述**: 鼠标右键单击
 
 **函数原型**:
 ```c
-int dm_RightClick(int x, int y);
+int gd_RightClick(int x, int y);
 ```
 
 ---
 
-### dm_LeftDown
+### gd_LeftDown
 
 **功能描述**: 鼠标左键按下
 
 **函数原型**:
 ```c
-int dm_LeftDown(int x, int y);
+int gd_LeftDown(int x, int y);
 ```
 
 ---
 
-### dm_LeftUp
+### gd_LeftUp
 
 **功能描述**: 鼠标左键弹起
 
 **函数原型**:
 ```c
-int dm_LeftUp(int x, int y);
+int gd_LeftUp(int x, int y);
 ```
 
 ---
 
-### dm_KeyPress
+### gd_KeyPress
 
 **功能描述**: 键盘按键（按下并弹起）
 
 **函数原型**:
 ```c
-int dm_KeyPress(int keyCode);
+int gd_KeyPress(int keyCode);
 ```
 
 **参数说明**:
@@ -328,43 +328,43 @@ int dm_KeyPress(int keyCode);
 **示例代码**:
 ```python
 # 按下Enter键
-damo.dm_KeyPress(13)
+gd.gd_KeyPress(13)
 
 # 按下A键
-damo.dm_KeyPress(65)
+gd.gd_KeyPress(65)
 ```
 
 ---
 
-### dm_KeyDown
+### gd_KeyDown
 
 **功能描述**: 键盘按键按下
 
 **函数原型**:
 ```c
-int dm_KeyDown(int keyCode);
+int gd_KeyDown(int keyCode);
 ```
 
 ---
 
-### dm_KeyUp
+### gd_KeyUp
 
 **功能描述**: 键盘按键弹起
 
 **函数原型**:
 ```c
-int dm_KeyUp(int keyCode);
+int gd_KeyUp(int keyCode);
 ```
 
 ---
 
-### dm_SendString
+### gd_SendString
 
 **功能描述**: 发送字符串
 
 **函数原型**:
 ```c
-int dm_SendString(const char* text);
+int gd_SendString(const char* text);
 ```
 
 **参数说明**:
@@ -377,20 +377,20 @@ int dm_SendString(const char* text);
 
 **示例代码**:
 ```python
-damo.dm_SendString("Hello World".encode('utf-8'))
+gd.gd_SendString("Hello World".encode('utf-8'))
 ```
 
 ---
 
 ## 四、图色识别API
 
-### dm_FindPic
+### gd_FindPic
 
 **功能描述**: 在截图中查找模板图片
 
 **函数原型**:
 ```c
-int dm_FindPic(const char* templatePath, double similarity, int* x, int* y);
+int gd_FindPic(const char* templatePath, double similarity, int* x, int* y);
 ```
 
 **参数说明**:
@@ -409,21 +409,21 @@ int dm_FindPic(const char* templatePath, double similarity, int* x, int* y);
 ```python
 x = ctypes.c_int()
 y = ctypes.c_int()
-result = damo.dm_FindPic("./button.png".encode(), 0.8, ctypes.byref(x), ctypes.byref(y))
+result = gd.gd_FindPic("./button.png".encode(), 0.8, ctypes.byref(x), ctypes.byref(y))
 if result == 0:
     print(f"找到图片: ({x.value}, {y.value})")
-    damo.dm_LeftClick(x.value, y.value)
+    gd.gd_LeftClick(x.value, y.value)
 ```
 
 ---
 
-### dm_FindPicInRect
+### gd_FindPicInRect
 
 **功能描述**: 在指定区域内查找模板图片
 
 **函数原型**:
 ```c
-int dm_FindPicInRect(const char* templatePath, int x1, int y1, int x2, int y2, double similarity, int* x, int* y);
+int gd_FindPicInRect(const char* templatePath, int x1, int y1, int x2, int y2, double similarity, int* x, int* y);
 ```
 
 **参数说明**:
@@ -437,13 +437,13 @@ int dm_FindPicInRect(const char* templatePath, int x1, int y1, int x2, int y2, d
 
 ---
 
-### dm_FindColor
+### gd_FindColor
 
 **功能描述**: 查找指定颜色
 
 **函数原型**:
 ```c
-int dm_FindColor(unsigned int color, int tolerance, int* x, int* y);
+int gd_FindColor(unsigned int color, int tolerance, int* x, int* y);
 ```
 
 **参数说明**:
@@ -465,29 +465,29 @@ int dm_FindColor(unsigned int color, int tolerance, int* x, int* y);
 # 查找红色 (BGR格式)
 x = ctypes.c_int()
 y = ctypes.c_int()
-result = damo.dm_FindColor(0x0000FF, 10, ctypes.byref(x), ctypes.byref(y))
+result = gd.gd_FindColor(0x0000FF, 10, ctypes.byref(x), ctypes.byref(y))
 ```
 
 ---
 
-### dm_FindColorInRect
+### gd_FindColorInRect
 
 **功能描述**: 在指定区域内查找颜色
 
 **函数原型**:
 ```c
-int dm_FindColorInRect(unsigned int color, int x1, int y1, int x2, int y2, int tolerance, int* x, int* y);
+int gd_FindColorInRect(unsigned int color, int x1, int y1, int x2, int y2, int tolerance, int* x, int* y);
 ```
 
 ---
 
-### dm_CmpColor
+### gd_CmpColor
 
 **功能描述**: 比较指定位置的颜色
 
 **函数原型**:
 ```c
-int dm_CmpColor(int x, int y, unsigned int color, int tolerance);
+int gd_CmpColor(int x, int y, unsigned int color, int tolerance);
 ```
 
 **返回值**:
@@ -497,19 +497,19 @@ int dm_CmpColor(int x, int y, unsigned int color, int tolerance);
 **示例代码**:
 ```python
 # 判断(100, 200)位置是否为红色
-if damo.dm_CmpColor(100, 200, 0x0000FF, 10):
+if gd.gd_CmpColor(100, 200, 0x0000FF, 10):
     print("颜色匹配")
 ```
 
 ---
 
-### dm_GetColor
+### gd_GetColor
 
 **功能描述**: 获取指定位置的像素颜色
 
 **函数原型**:
 ```c
-unsigned int dm_GetColor(int x, int y);
+unsigned int gd_GetColor(int x, int y);
 ```
 
 **返回值**:
@@ -519,13 +519,13 @@ unsigned int dm_GetColor(int x, int y);
 
 ## 五、OCR识别API
 
-### dm_Ocr
+### gd_Ocr
 
 **功能描述**: OCR识别指定区域的文字
 
 **函数原型**:
 ```c
-const char* dm_Ocr(int x1, int y1, int x2, int y2);
+const char* gd_Ocr(int x1, int y1, int x2, int y2);
 ```
 
 **参数说明**:
@@ -539,19 +539,19 @@ const char* dm_Ocr(int x1, int y1, int x2, int y2);
 
 **示例代码**:
 ```python
-text = damo.dm_Ocr(0, 0, 200, 50)
+text = gd.gd_Ocr(0, 0, 200, 50)
 print(f"识别结果: {text.decode('utf-8')}")
 ```
 
 ---
 
-### dm_FindStr
+### gd_FindStr
 
 **功能描述**: 在指定区域查找文字
 
 **函数原型**:
 ```c
-int dm_FindStr(const char* text, int x1, int y1, int x2, int y2, int* x, int* y);
+int gd_FindStr(const char* text, int x1, int y1, int x2, int y2, int* x, int* y);
 ```
 
 **参数说明**:
@@ -569,10 +569,10 @@ int dm_FindStr(const char* text, int x1, int y1, int x2, int y2, int* x, int* y)
 ```python
 x = ctypes.c_int()
 y = ctypes.c_int()
-result = damo.dm_FindStr("确定".encode('utf-8'), 0, 0, 500, 500, ctypes.byref(x), ctypes.byref(y))
+result = gd.gd_FindStr("确定".encode('utf-8'), 0, 0, 500, 500, ctypes.byref(x), ctypes.byref(y))
 if result == 0:
     print(f"找到文字: ({x.value}, {y.value})")
-    damo.dm_LeftClick(x.value, y.value)
+    gd.gd_LeftClick(x.value, y.value)
 ```
 
 ---
@@ -603,25 +603,25 @@ import ctypes
 from ctypes import wintypes
 
 # 1. 加载DLL
-damo = ctypes.CDLL('./damo64.dll')
+gd = ctypes.CDLL('./godaemon64.dll')
 
 # 2. 查找并绑定窗口
-hwnd = damo.dm_FindWindow(None, "计算器".encode('gbk'))
-damo.dm_BindWindow(hwnd, "gdi".encode())
+hwnd = gd.gd_FindWindow(None, "计算器".encode('gbk'))
+gd.gd_BindWindow(hwnd, "gdi".encode())
 
 # 3. 截图
-damo.dm_Capture()
-damo.dm_SavePic("./screen.png".encode())
+gd.gd_Capture()
+gd.gd_SavePic("./screen.png".encode())
 
 # 4. 找图点击
 x, y = ctypes.c_int(), ctypes.c_int()
-if damo.dm_FindPic("./button.png".encode(), 0.8, ctypes.byref(x), ctypes.byref(y)) == 0:
-    damo.dm_LeftClick(x.value, y.value)
+if gd.gd_FindPic("./button.png".encode(), 0.8, ctypes.byref(x), ctypes.byref(y)) == 0:
+    gd.gd_LeftClick(x.value, y.value)
 
 # 5. OCR识别
-text = damo.dm_Ocr(0, 0, 200, 50)
+text = gd.gd_Ocr(0, 0, 200, 50)
 print(text.decode('utf-8'))
 
 # 6. 解绑窗口
-damo.dm_UnBindWindow()
+gd.gd_UnBindWindow()
 ```
