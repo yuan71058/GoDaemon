@@ -265,7 +265,7 @@ func main() {
 
 	fmt.Println("--- 窗口操作 ---")
 
-	hwnd := gdFindWindow("", "记事本")
+	hwnd := gdFindWindow("Notepad", "")
 	if hwnd == 0 {
 		fmt.Println("未找到记事本窗口，请先打开记事本")
 		return

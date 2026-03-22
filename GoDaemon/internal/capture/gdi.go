@@ -12,11 +12,13 @@ import (
 var (
 	// gdi32.dll 句柄
 	gdi32 = syscall.NewLazyDLL("gdi32.dll")
+	// user32.dll 句柄
+	user32 = syscall.NewLazyDLL("user32.dll")
 
 	// GDI API 函数
-	procGetWindowDC         = gdi32.NewProc("GetWindowDC")
-	procGetDC               = gdi32.NewProc("GetDC")
-	procReleaseDC           = gdi32.NewProc("ReleaseDC")
+	procGetWindowDC         = user32.NewProc("GetWindowDC")
+	procGetDC               = user32.NewProc("GetDC")
+	procReleaseDC           = user32.NewProc("ReleaseDC")
 	procCreateCompatibleDC  = gdi32.NewProc("CreateCompatibleDC")
 	procDeleteDC            = gdi32.NewProc("DeleteDC")
 	procCreateCompatibleBitmap = gdi32.NewProc("CreateCompatibleBitmap")
