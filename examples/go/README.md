@@ -6,13 +6,14 @@
 2. 运行示例：
 
 ```bash
-go run main.go
+# 重要：必须设置GOARCH=amd64才能加载64位DLL
+$env:GOARCH="amd64"; go run main.go
 ```
 
 ## 编译为exe
 
 ```bash
-go build -o demo.exe main.go
+$env:GOARCH="amd64"; go build -o demo.exe main.go
 ```
 
 ## 注意事项
