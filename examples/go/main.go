@@ -40,7 +40,7 @@ var (
 
 func init() {
 	var err error
-	dllPath := `E:\SRC\GoDaemon\GoDaemon\bin\godaemon64.dll`
+	dllPath := `E:\SRC\GoDaemon\GoDaemon\bin\godaemon32.dll`
 	gdDll, err = syscall.LoadDLL(dllPath)
 	if err != nil {
 		panic(fmt.Sprintf("加载DLL失败: %v, 路径: %s", err, dllPath))

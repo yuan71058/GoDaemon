@@ -1,19 +1,19 @@
-# Go语言调用示例
+# Go语言调用示例（32位）
 
 ## 运行方法
 
-1. 将 `godaemon64.dll` 复制到本目录
+1. 将 `godaemon32.dll` 复制到本目录
 2. 运行示例：
 
 ```bash
-# 重要：必须设置GOARCH=amd64才能加载64位DLL
-$env:GOARCH="amd64"; go run main.go
+# 重要：必须设置GOARCH=386才能加载32位DLL
+$env:GOARCH="386"; go run main.go
 ```
 
 ## 编译为exe
 
 ```bash
-$env:GOARCH="amd64"; go build -o demo.exe main.go
+$env:GOARCH="386"; go build -o demo.exe main.go
 ```
 
 ## 注意事项
